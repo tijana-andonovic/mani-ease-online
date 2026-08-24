@@ -156,7 +156,21 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      booked_slots: {
+        Row: {
+          booking_date: string | null
+          start_time: string | null
+        }
+        Insert: {
+          booking_date?: string | null
+          start_time?: string | null
+        }
+        Update: {
+          booking_date?: string | null
+          start_time?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
