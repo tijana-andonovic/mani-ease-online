@@ -28,8 +28,8 @@ export function toDateKey(date: Date) {
 }
 
 export function formatDate(dateKey: string) {
-  const [y, m, d] = dateKey.split("-").map(Number);
-  return new Date(y, (m ?? 1) - 1, d).toLocaleDateString("en-GB", {
+  const [y = 1970, m = 1, d = 1] = dateKey.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
     weekday: "short",
     day: "numeric",
     month: "long",
