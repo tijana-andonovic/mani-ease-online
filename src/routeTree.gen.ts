@@ -20,7 +20,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated.appointments'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated.appointments.$id'
-import { Route as AuthenticatedAdminClientIdRouteImport } from './routes/_authenticated.admin.client.$id'
+import { Route as AuthenticatedAdminClientIdRouteImport } from './routes/_authenticated.admin/client.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
