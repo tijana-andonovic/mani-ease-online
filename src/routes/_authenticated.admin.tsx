@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StatusBadge, type BookingStatus } from "@/components/status-badge";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { formatDate, formatDuration, formatPrice, formatTime, toDateKey } from "@/lib/format";
 
