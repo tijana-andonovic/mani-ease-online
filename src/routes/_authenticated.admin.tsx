@@ -324,7 +324,7 @@ function ClientsTab() {
       {(data ?? []).map((p) => (
         <Link
           key={p.id}
-          to="/admin/client/$id"
+          to="/admin/customer/$id"
           params={{ id: p.id }}
           className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-4 transition hover:border-primary/50"
         >
