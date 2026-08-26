@@ -19,6 +19,8 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated.appointments'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated.appointments.$id'
+import { Route as AuthenticatedAdminClientIdRouteImport } from './routes/_authenticated.admin.client.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +72,18 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAppointmentsIdRoute =
+  AuthenticatedAppointmentsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAppointmentsRoute,
+  } as any)
+const AuthenticatedAdminClientIdRoute =
+  AuthenticatedAdminClientIdRouteImport.update({
+    id: '/client/$id',
+    path: '/client/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -78,9 +92,11 @@ export interface FileRoutesByFullPath {
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
+  '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
+  '/admin/client/$id': typeof AuthenticatedAdminClientIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -89,9 +105,11 @@ export interface FileRoutesByTo {
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
+  '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
+  '/admin/client/$id': typeof AuthenticatedAdminClientIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -102,9 +120,11 @@ export interface FileRoutesById {
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
+  '/_authenticated/admin/client/$id': typeof AuthenticatedAdminClientIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,6 +138,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/appointments'
     | '/profile'
+    | '/appointments/$id'
+    | '/admin/client/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -129,6 +151,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/appointments'
     | '/profile'
+    | '/appointments/$id'
+    | '/admin/client/$id'
   id:
     | '__root__'
     | '/'
@@ -141,6 +165,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/appointments'
     | '/_authenticated/profile'
+    | '/_authenticated/appointments/$id'
+    | '/_authenticated/admin/client/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -225,18 +251,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/appointments/$id': {
+      id: '/_authenticated/appointments/$id'
+      path: '/$id'
+      fullPath: '/appointments/$id'
+      preLoaderRoute: typeof AuthenticatedAppointmentsIdRouteImport
+      parentRoute: typeof AuthenticatedAppointmentsRoute
+    }
+    '/_authenticated/admin/client/$id': {
+      id: '/_authenticated/admin/client/$id'
+      path: '/client/$id'
+      fullPath: '/admin/client/$id'
+      preLoaderRoute: typeof AuthenticatedAdminClientIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminClientIdRoute: typeof AuthenticatedAdminClientIdRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminClientIdRoute: AuthenticatedAdminClientIdRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedAppointmentsRouteChildren {
+  AuthenticatedAppointmentsIdRoute: typeof AuthenticatedAppointmentsIdRoute
+}
+
+const AuthenticatedAppointmentsRouteChildren: AuthenticatedAppointmentsRouteChildren =
+  {
+    AuthenticatedAppointmentsIdRoute: AuthenticatedAppointmentsIdRoute,
+  }
+
+const AuthenticatedAppointmentsRouteWithChildren =
+  AuthenticatedAppointmentsRoute._addFileChildren(
+    AuthenticatedAppointmentsRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRouteWithChildren
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRouteWithChildren,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
 }
 

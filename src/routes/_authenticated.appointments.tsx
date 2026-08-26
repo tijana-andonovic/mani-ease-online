@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 import { StatusBadge, type BookingStatus } from "@/components/status-badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -34,7 +32,6 @@ export const Route = createFileRoute("/_authenticated/appointments")({
 
 function AppointmentsPage() {
   const { user } = useAuth();
-  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ["bookings", "mine", user?.id],
@@ -50,15 +47,7 @@ function AppointmentsPage() {
     },
   });
 
-  const cancel = async (id: string) => {
-    const { error } = await supabase.from("bookings").update({ status: "cancelled" }).eq("id", id);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Appointment cancelled.");
-    void queryClient.invalidateQueries({ queryKey: ["bookings"] });
-  };
+
 
 
   const today = toDateKey(new Date());
@@ -67,7 +56,11 @@ function AppointmentsPage() {
   const past = rows.filter((r) => !upcoming.includes(r));
 
   const Card = ({ r }: { r: Row }) => (
-    <article className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-5 shadow-[var(--shadow-soft)]">
+    <Link
+      to="/appointments/$id"
+      params={{ id: r.id }}
+      className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-5 shadow-[var(--shadow-soft)] transition hover:border-primary/50"
+    >
       <div>
         <div className="flex items-center gap-3">
           <h3 className="font-display text-lg">{r.services?.name ?? "Treatment"}</h3>
@@ -79,12 +72,8 @@ function AppointmentsPage() {
         </p>
         {r.comment ? <p className="text-muted-foreground mt-2 text-sm italic">“{r.comment}”</p> : null}
       </div>
-      {r.booking_date >= today && (r.status === "pending" || r.status === "confirmed") ? (
-        <Button variant="outline" size="sm" onClick={() => void cancel(r.id)}>
-          Cancel
-        </Button>
-      ) : null}
-    </article>
+      <span className="text-muted-foreground text-sm underline-offset-4 group-hover:underline">View details →</span>
+    </Link>
   );
 
   return (
