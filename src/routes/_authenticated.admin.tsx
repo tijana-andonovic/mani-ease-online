@@ -322,16 +322,21 @@ function ClientsTab() {
   return (
     <div className="space-y-3">
       {(data ?? []).map((p) => (
-        <div
+        <Link
           key={p.id}
-          className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-4"
+          to="/admin/client/$id"
+          params={{ id: p.id }}
+          className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-4 transition hover:border-primary/50"
         >
           <div>
             <p className="font-display">{p.full_name || "Unnamed guest"}</p>
             <p className="text-muted-foreground text-sm">{p.phone ?? "No phone on file"}</p>
           </div>
-          <span className="eyebrow">{p.role}</span>
-        </div>
+          <div className="flex items-center gap-3">
+            <span className="eyebrow">{p.role}</span>
+            <span className="text-muted-foreground text-sm">View →</span>
+          </div>
+        </Link>
       ))}
     </div>
   );

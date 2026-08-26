@@ -67,7 +67,11 @@ function AppointmentsPage() {
   const past = rows.filter((r) => !upcoming.includes(r));
 
   const Card = ({ r }: { r: Row }) => (
-    <article className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-5 shadow-[var(--shadow-soft)]">
+    <Link
+      to="/appointments/$id"
+      params={{ id: r.id }}
+      className="bg-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-5 shadow-[var(--shadow-soft)] transition hover:border-primary/50"
+    >
       <div>
         <div className="flex items-center gap-3">
           <h3 className="font-display text-lg">{r.services?.name ?? "Treatment"}</h3>
@@ -79,12 +83,8 @@ function AppointmentsPage() {
         </p>
         {r.comment ? <p className="text-muted-foreground mt-2 text-sm italic">“{r.comment}”</p> : null}
       </div>
-      {r.booking_date >= today && (r.status === "pending" || r.status === "confirmed") ? (
-        <Button variant="outline" size="sm" onClick={() => void cancel(r.id)}>
-          Cancel
-        </Button>
-      ) : null}
-    </article>
+      <span className="text-muted-foreground text-sm underline-offset-4 group-hover:underline">View details →</span>
+    </Link>
   );
 
   return (
