@@ -11,9 +11,9 @@ import type { Service } from "@/components/service-card";
 import { formatDate, formatDuration, formatPrice, formatTime, toDateKey } from "@/lib/format";
 
 export const Route = createFileRoute("/book")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    service: typeof search['service'] === "string" ? (search['service'] as string) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { service?: string } =>
+    typeof search['service'] === "string" ? { service: search['service'] } : {},
+
   head: () => ({
     meta: [
       { title: "Book a Manicure — MaisonLune" },

@@ -53,10 +53,14 @@ function ProfilePage() {
       .from("profiles")
       .update({ full_name: fullName, phone: phone || null })
       .eq("id", user!.id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Profile saved.");
     void queryClient.invalidateQueries({ queryKey: ["profile"] });
   };
+
 
   return (
     <section className="mx-auto w-full max-w-md px-5 py-14">
