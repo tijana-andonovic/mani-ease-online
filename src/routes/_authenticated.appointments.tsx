@@ -32,7 +32,6 @@ export const Route = createFileRoute("/_authenticated/appointments")({
 
 function AppointmentsPage() {
   const { user } = useAuth();
-  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ["bookings", "mine", user?.id],
@@ -48,15 +47,7 @@ function AppointmentsPage() {
     },
   });
 
-  const cancel = async (id: string) => {
-    const { error } = await supabase.from("bookings").update({ status: "cancelled" }).eq("id", id);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Appointment cancelled.");
-    void queryClient.invalidateQueries({ queryKey: ["bookings"] });
-  };
+
 
 
   const today = toDateKey(new Date());
