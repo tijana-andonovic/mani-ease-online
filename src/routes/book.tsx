@@ -60,14 +60,13 @@ function BookPage() {
     queryKey: ["slots", dateKey],
     enabled: Boolean(dateKey),
     queryFn: async () => {
-      const [all, booked] = await Promise.all([
-        supabase.from("time_slots").select("start_time").eq("slot_date", dateKey!).order("start_time"),
-        supabase.from("booked_slots").select("start_time").eq("booking_date", dateKey!),
-      ]);
-      if (all.error) throw all.error;
-      if (booked.error) throw booked.error;
-      const taken = new Set((booked.data ?? []).map((b) => b.start_time));
-      return (all.data ?? []).map((s) => ({ time: s.start_time, taken: taken.has(s.start_time) }));
+      const { data, error } = await supabase
+        .from("time_slots")
+        .select("start_time, is_booked")
+        .eq("slot_date", dateKey!)
+        .order("start_time");
+      if (error) throw error;
+      return (data ?? []).map((s) => ({ time: s.start_time, taken: s.is_booked }));
     },
   });
 
