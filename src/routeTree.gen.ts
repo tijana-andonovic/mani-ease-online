@@ -20,7 +20,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated.appointments'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedAppointmentsIdRouteImport } from './routes/_authenticated.appointments.$id'
-import { Route as AuthenticatedAdminClientIdRouteImport } from './routes/_authenticated.admin/client.$id'
+import { Route as AuthenticatedAdminCustomerIdRouteImport } from './routes/_authenticated.admin.customer.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -78,10 +78,10 @@ const AuthenticatedAppointmentsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedAppointmentsRoute,
   } as any)
-const AuthenticatedAdminClientIdRoute =
-  AuthenticatedAdminClientIdRouteImport.update({
-    id: '/client/$id',
-    path: '/client/$id',
+const AuthenticatedAdminCustomerIdRoute =
+  AuthenticatedAdminCustomerIdRouteImport.update({
+    id: '/customer/$id',
+    path: '/customer/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 
@@ -96,7 +96,7 @@ export interface FileRoutesByFullPath {
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
-  '/admin/client/$id': typeof AuthenticatedAdminClientIdRoute
+  '/admin/customer/$id': typeof AuthenticatedAdminCustomerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,7 +109,7 @@ export interface FileRoutesByTo {
   '/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
   '/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
-  '/admin/client/$id': typeof AuthenticatedAdminClientIdRoute
+  '/admin/customer/$id': typeof AuthenticatedAdminCustomerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,7 +124,7 @@ export interface FileRoutesById {
   '/_authenticated/appointments': typeof AuthenticatedAppointmentsRouteWithChildren
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/appointments/$id': typeof AuthenticatedAppointmentsIdRoute
-  '/_authenticated/admin/client/$id': typeof AuthenticatedAdminClientIdRoute
+  '/_authenticated/admin/customer/$id': typeof AuthenticatedAdminCustomerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -139,7 +139,7 @@ export interface FileRouteTypes {
     | '/appointments'
     | '/profile'
     | '/appointments/$id'
-    | '/admin/client/$id'
+    | '/admin/customer/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -152,7 +152,7 @@ export interface FileRouteTypes {
     | '/appointments'
     | '/profile'
     | '/appointments/$id'
-    | '/admin/client/$id'
+    | '/admin/customer/$id'
   id:
     | '__root__'
     | '/'
@@ -166,7 +166,7 @@ export interface FileRouteTypes {
     | '/_authenticated/appointments'
     | '/_authenticated/profile'
     | '/_authenticated/appointments/$id'
-    | '/_authenticated/admin/client/$id'
+    | '/_authenticated/admin/customer/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -258,22 +258,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsIdRouteImport
       parentRoute: typeof AuthenticatedAppointmentsRoute
     }
-    '/_authenticated/admin/client/$id': {
-      id: '/_authenticated/admin/client/$id'
-      path: '/client/$id'
-      fullPath: '/admin/client/$id'
-      preLoaderRoute: typeof AuthenticatedAdminClientIdRouteImport
+    '/_authenticated/admin/customer/$id': {
+      id: '/_authenticated/admin/customer/$id'
+      path: '/customer/$id'
+      fullPath: '/admin/customer/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCustomerIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
-  AuthenticatedAdminClientIdRoute: typeof AuthenticatedAdminClientIdRoute
+  AuthenticatedAdminCustomerIdRoute: typeof AuthenticatedAdminCustomerIdRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
-  AuthenticatedAdminClientIdRoute: AuthenticatedAdminClientIdRoute,
+  AuthenticatedAdminCustomerIdRoute: AuthenticatedAdminCustomerIdRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =

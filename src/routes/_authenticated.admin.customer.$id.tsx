@@ -21,7 +21,7 @@ type ClientBooking = {
   services: { name: string } | null;
 };
 
-export const Route = createFileRoute("/_authenticated/admin/client/$id")({
+export const Route = createFileRoute("/_authenticated/admin/customer/$id")({
   head: () => ({
     meta: [
       { title: "Client — MaisonLune Admin" },
