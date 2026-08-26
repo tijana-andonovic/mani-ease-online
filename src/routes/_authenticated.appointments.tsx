@@ -52,10 +52,14 @@ function AppointmentsPage() {
 
   const cancel = async (id: string) => {
     const { error } = await supabase.from("bookings").update({ status: "cancelled" }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Appointment cancelled.");
     void queryClient.invalidateQueries({ queryKey: ["bookings"] });
   };
+
 
   const today = toDateKey(new Date());
   const rows = data ?? [];
