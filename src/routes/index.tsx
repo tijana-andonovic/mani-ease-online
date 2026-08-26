@@ -4,7 +4,7 @@ import { Sparkles, CalendarCheck, HeartHandshake } from "lucide-react";
 import heroImage from "@/assets/hero.jpg";
 import { Button } from "@/components/ui/button";
 import { ServiceCard, type Service } from "@/components/service-card";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/")({
   head: () => ({
