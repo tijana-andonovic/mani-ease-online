@@ -119,18 +119,21 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_booked: boolean
           slot_date: string
           start_time: string
         }
         Insert: {
           created_at?: string
           id?: string
+          is_booked?: boolean
           slot_date: string
           start_time: string
         }
         Update: {
           created_at?: string
           id?: string
+          is_booked?: boolean
           slot_date?: string
           start_time?: string
         }
@@ -156,30 +159,10 @@ export type Database = {
       }
     }
     Views: {
-      booked_slots: {
-        Row: {
-          booking_date: string | null
-          start_time: string | null
-        }
-        Insert: {
-          booking_date?: string | null
-          start_time?: string | null
-        }
-        Update: {
-          booking_date?: string | null
-          start_time?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       app_role: "admin" | "user"
