@@ -119,18 +119,21 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_booked: boolean
           slot_date: string
           start_time: string
         }
         Insert: {
           created_at?: string
           id?: string
+          is_booked?: boolean
           slot_date: string
           start_time: string
         }
         Update: {
           created_at?: string
           id?: string
+          is_booked?: boolean
           slot_date?: string
           start_time?: string
         }
@@ -156,21 +159,7 @@ export type Database = {
       }
     }
     Views: {
-      booked_slots: {
-        Row: {
-          booking_date: string | null
-          start_time: string | null
-        }
-        Insert: {
-          booking_date?: string | null
-          start_time?: string | null
-        }
-        Update: {
-          booking_date?: string | null
-          start_time?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       has_role: {
